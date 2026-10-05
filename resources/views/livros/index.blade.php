@@ -1,62 +1,58 @@
 @extends('layouts.app')
 
-@section('title', 'Livros')
-
 @section('content')
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold">Livros</h1>
-        <a href="{{ route('livros.create') }}"
-           class="rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
-            Novo livro
-        </a>
+<div class="card">
+    <div class="card-header">
+        <h2>Lista de Livros</h2>
+        <a href="{{ route('livros.create') }}" class="btn btn-primary">+ Novo Livro</a>
     </div>
 
-    <div class="overflow-x-auto rounded bg-white shadow">
-        <table class="min-w-full text-left">
-            <thead class="bg-gray-50 text-sm uppercase text-gray-600">
-                <tr>
-                    <th class="px-4 py-3">#</th>
-                    <th class="px-4 py-3">Título</th>
-                    <th class="px-4 py-3">Ano</th>
-                    <th class="px-4 py-3">ISBN</th>
-                    <th class="px-4 py-3">Autor</th>
-                    <th class="px-4 py-3 text-right">Ações</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y">
-                @forelse ($livros as $livro)
-                    <tr>
-                        <td class="px-4 py-3">{{ $livro->id }}</td>
-                        <td class="px-4 py-3">{{ $livro->titulo }}</td>
-                        <td class="px-4 py-3">{{ $livro->ano_publicacao }}</td>
-                        <td class="px-4 py-3">{{ $livro->isbn }}</td>
-                        <td class="px-4 py-3">{{ $livro->autor->nome ?? '-' }}</td>
-                        <td class="px-4 py-3">
-                            <div class="flex justify-end gap-2">
-                                <a href="{{ route('livros.edit', $livro) }}"
-                                   class="rounded bg-yellow-500 px-3 py-1 text-sm text-white hover:bg-yellow-600">
-                                    Editar
-                                </a>
-                                <form action="{{ route('livros.destroy', $livro) }}" method="POST"
-                                      onsubmit="return confirm('Deseja realmente excluir este livro?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                            class="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">
-                                        Excluir
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="px-4 py-6 text-center text-gray-500">
-                            Nenhum livro cadastrado.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Ano</th>
+                <th>ISBN</th>
+                <th style="width: 180px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($livros as $livro)
+            <tr>
+                <td>{{ $livro->id }}</td>
+                <td><strong>{{ $livro->titulo }}</strong></td>
+                <!-- Exibe o nome do autor buscando no relacionamento da Model -->
+                <td>{{ $livro->autor->nome ?? 'Autor não informado' }}</td>
+                <td>{{ $livro->ano_publicacao }}</td>
+                <td>{{ $livro->isbn }}</td>
+                <td>
+                    <div style="display: flex; gap: 6px;">
+                        <!-- Botão de Editar -->
+                        <a href="{{ route('livros.edit', $livro) }}" class="btn btn-outline">
+                            Editar
+                        </a>
+
+                        <!-- Formulário de Exclusão -->
+                        <form action="{{ route('livros.destroy', $livro) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir o livro «{{ $livro->titulo }}»?')">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="6" style="text-align: center; color: #718096; padding: 20px;">
+                    Nenhum livro cadastrado até o momento.
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 @endsection

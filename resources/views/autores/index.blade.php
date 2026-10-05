@@ -1,58 +1,51 @@
 @extends('layouts.app')
 
-@section('title', 'Autores')
-
 @section('content')
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold">Autores</h1>
-        <a href="{{ route('autores.create') }}"
-           class="rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
-            Novo autor
-        </a>
+<div class="card">
+    <div class="card-header">
+        <h2>Lista de Autores</h2>
+        <a href="{{ route('autores.create') }}" class="btn btn-primary">+ Novo Autor</a>
     </div>
 
-    <div class="overflow-x-auto rounded bg-white shadow">
-        <table class="min-w-full text-left">
-            <thead class="bg-gray-50 text-sm uppercase text-gray-600">
-                <tr>
-                    <th class="px-4 py-3">#</th>
-                    <th class="px-4 py-3">Nome</th>
-                    <th class="px-4 py-3">Nacionalidade</th>
-                    <th class="px-4 py-3 text-right">Ações</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y">
-                @forelse ($autores as $autor)
-                    <tr>
-                        <td class="px-4 py-3">{{ $autor->id }}</td>
-                        <td class="px-4 py-3">{{ $autor->nome }}</td>
-                        <td class="px-4 py-3">{{ $autor->nacionalidade }}</td>
-                        <td class="px-4 py-3">
-                            <div class="flex justify-end gap-2">
-                                <a href="{{ route('autores.edit', $autor) }}"
-                                   class="rounded bg-yellow-500 px-3 py-1 text-sm text-white hover:bg-yellow-600">
-                                    Editar
-                                </a>
-                                <form action="{{ route('autores.destroy', $autor) }}" method="POST"
-                                      onsubmit="return confirm('Deseja realmente excluir este autor?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                            class="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">
-                                        Excluir
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="px-4 py-6 text-center text-gray-500">
-                            Nenhum autor cadastrado.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Nacionalidade</th>
+                <th style="width: 180px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($autores as $autor)
+            <tr>
+                <td>{{ $autor->id }}</td>
+                <td><strong>{{ $autor->nome }}</strong></td>
+                <td>{{ $autor->nacionalidade }}</td>
+                <td>
+                    <div style="display: flex; gap: 6px;">
+                        <a href="{{ route('autores.edit', $autor) }}" class="btn btn-outline">
+                            Editar
+                        </a>
+
+                        <form action="{{ route('autores.destroy', $autor) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir o autor «{{ $autor->nome }}»?')">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="4" style="text-align: center; color: #718096; padding: 20px;">
+                    Nenhum autor cadastrado até o momento.
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 @endsection

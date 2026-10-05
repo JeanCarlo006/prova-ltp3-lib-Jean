@@ -1,38 +1,38 @@
 @extends('layouts.app')
 
-@section('title', 'Início')
-
 @section('content')
-    <div class="text-center mb-10">
-        <h1 class="text-3xl font-bold mb-2">Sistema de Biblioteca</h1>
-        <p class="text-gray-600">Cadastro de autores e livros.</p>
+<!-- Título da Página Inicial -->
+<div style="text-align: center; margin-bottom: 35px;">
+    <h1 style="color: #006b2b; font-size: 2.2rem; margin-bottom: 8px;">Sistema de Biblioteca</h1>
+    <p style="color: #718096; font-size: 1.1rem;">Painel de gestão de acervo e autores do IFTO</p>
+</div>
+
+<!-- Layout em Grelha com Cartões Estilizados -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+    
+    <!-- Cartão Autores -->
+    <div class="card" style="text-align: center; padding: 30px 24px;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">✍️</div>
+        <h2 style="color: #006b2b; margin-bottom: 12px; font-size: 1.5rem;">Autores</h2>
+        <p style="color: #4a5568; margin-bottom: 24px; min-height: 48px;">
+            Gerencie os autores registados e adicione novos escritores ao acervo.
+        </p>
+        <a href="{{ route('autores.index') }}" class="btn btn-primary" style="display: inline-block; width: 100%; text-align: center;">
+            Gerir Autores
+        </a>
     </div>
 
-    <div class="grid gap-6 sm:grid-cols-2">
-        <div class="rounded bg-white p-6 shadow">
-            <h2 class="text-xl font-semibold mb-2">Autores</h2>
-            <p class="text-gray-600 mb-4">Gerencie os autores cadastrados.</p>
-            @if (Route::has('autores.index'))
-                <a href="{{ route('autores.index') }}"
-                   class="inline-block rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
-                    Acessar
-                </a>
-            @else
-                <span class="text-sm text-red-600">Rotas de autores ainda não criadas (Etapa 4).</span>
-            @endif
-        </div>
-
-        <div class="rounded bg-white p-6 shadow">
-            <h2 class="text-xl font-semibold mb-2">Livros</h2>
-            <p class="text-gray-600 mb-4">Gerencie os livros cadastrados.</p>
-            @if (Route::has('livros.index'))
-                <a href="{{ route('livros.index') }}"
-                   class="inline-block rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
-                    Acessar
-                </a>
-            @else
-                <span class="text-sm text-red-600">Rotas de livros ainda não criadas (Etapa 4).</span>
-            @endif
-        </div>
+    <!-- Cartão Livros -->
+    <div class="card" style="text-align: center; padding: 30px 24px;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">📚</div>
+        <h2 style="color: #006b2b; margin-bottom: 12px; font-size: 1.5rem;">Livros</h2>
+        <p style="color: #4a5568; margin-bottom: 24px; min-height: 48px;">
+            Consulte, edite e gira o catálogo completo de livros da biblioteca.
+        </p>
+        <a href="{{ route('livros.index') }}" class="btn btn-primary" style="display: inline-block; width: 100%; text-align: center;">
+            Gerir Livros
+        </a>
     </div>
+
+</div>
 @endsection
